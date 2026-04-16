@@ -1,0 +1,96 @@
+{
+  "userList": [
+    {
+      "id": "4",
+      "name": "Patricia Lebsack",
+      "username": "Karianne",
+      "email": "Julianne.OConner@kory.org",
+      "address": {
+        "street": "Hoeger Mall",
+        "suite": "Apt. 692",
+        "city": "South Elvis",
+        "zipcode": "53919-4257",
+        "geo": {
+          "lat": "29.4572",
+          "lng": "-164.2990"
+        }
+      },
+      "phone": "493-170-9623 x156",
+      "website": "kale.biz",
+      "company": {
+        "name": "Robel-Corkery",
+        "catchPhrase": "Multi-tiered zero tolerance productivitynjkkkjggggggggggg",
+        "bs": "transition cutting-edge web services"
+      }
+    },
+    {
+      "id": "5",
+      "name": "Chelsey Dietrich",
+      "username": "Kamren",
+      "email": "Lucio_Hettinger@annie.ca",
+      "address": {
+        "street": "Skiles Walks",
+        "suite": "Suite 351",
+        "city": "Roscoeview",
+        "zipcode": "33263",
+        "geo": {
+          "lat": "-31.8129",
+          "lng": "62.5342"
+        }
+      },
+      "phone": "(254)954-1289",
+      "website": "demarco.info",
+      "company": {
+        "name": "Keebler LLC",
+        "catchPhrase": "User-centric fault-tolerant solution",
+        "bs": "revolutionize end-to-end systems"
+      }
+    },
+    {
+      "id": "7266",
+      "name": "Partha Chakraborty",
+      "username": "partha.chakra2",
+      "email": "partha.chakra2@gmail.com",
+      "address": {
+        "street": "rippon",
+        "suite": "A1",
+        "city": "kolkata",
+        "zipcode": "700132",
+        "geo": {
+          "lat": "89",
+          "lng": "87"
+        }
+      },
+      "phone": "9862029378",
+      "website": "nil",
+      "company": {
+        "name": "nil",
+        "catchPhrase": "nil",
+        "bs": "nil"
+      }
+    },
+    {
+      "id": "1d1a",
+      "name": "p",
+      "username": "v",
+      "email": "pc@gmail.com",
+      "address": {
+        "street": "12",
+        "suite": "er",
+        "city": "rt",
+        "zipcode": "567",
+        "geo": {
+          "lat": "890",
+          "lng": "234"
+        }
+      },
+      "phone": "456789",
+      "website": "nil",
+      "company": {
+        "name": "tyuio",
+        "catchPhrase": "yrtutu",
+        "bs": "dhdfhfj"
+      }
+    }
+  ]
+}

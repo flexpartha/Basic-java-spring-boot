@@ -1,0 +1,4 @@
+INSERT INTO users (name, username, email, phone, website, street, suite, city, zipcode, lat, lng, company_name, catch_phrase, bs) VALUES
+('Patricia Lebsack', 'Karianne', 'Julianne.OConner@kory.org', '493-170-9623 x156', 'kale.biz', 'Hoeger Mall', 'Apt. 692', 'South Elvis', '53919-4257', '29.4572', '-164.2990', 'Robel-Corkery', 'Multi-tiered zero tolerance productivity', 'transition cutting-edge web services'),
+('Chelsey Dietrich', 'Kamren', 'Lucio_Hettinger@annie.ca', '(254)954-1289', 'demarco.info', 'Skiles Walks', 'Suite 351', 'Roscoeview', '33263', '-31.8129', '62.5342', 'Keebler LLC', 'User-centric fault-tolerant solution', 'revolutionize end-to-end systems'),
+('Partha Chakraborty', 'partha.chakra2', 'partha.chakra2@gmail.com', '9862029378', 'nil', 'rippon', 'A1', 'kolkata', '700132', '89', '87', 'nil', 'nil', 'nil');
