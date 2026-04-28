@@ -14,15 +14,26 @@ import java.util.Date;
 public class JwtUtil {
 
     private final Key key;
-    private final long expirationMs;
+    private final long accessExpirationMs;
+    private final long refreshExpirationMs;
 
     public JwtUtil(@Value("${jwt.secret}") String secret,
-                   @Value("${jwt.expiration-ms}") long expirationMs) {
+            @Value("${jwt.access-expiration-ms}") long accessExpirationMs,
+            @Value("${jwt.refresh-expiration-ms}") long refreshExpirationMs) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
-        this.expirationMs = expirationMs;
+        this.accessExpirationMs = accessExpirationMs;
+        this.refreshExpirationMs = refreshExpirationMs;
     }
 
-    public String generateToken(String username) {
+    public String generateAccessToken(String username) {
+        return buildToken(username, accessExpirationMs);
+    }
+
+    public String generateRefreshToken(String username) {
+        return buildToken(username, refreshExpirationMs);
+    }
+
+    private String buildToken(String username, long expirationMs) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
