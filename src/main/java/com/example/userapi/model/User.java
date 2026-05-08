@@ -3,7 +3,9 @@ package com.example.userapi.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"username", "email"})
+})
 public class User {
 
     @Id

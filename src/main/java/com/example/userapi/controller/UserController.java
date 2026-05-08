@@ -1,7 +1,8 @@
 package com.example.userapi.controller;
 
+import com.example.userapi.dto.UserRequest;
+import com.example.userapi.dto.UserResponse;
 import com.example.userapi.exception.ApiResponse;
-import com.example.userapi.model.User;
 import com.example.userapi.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,37 +20,31 @@ public class UserController {
         this.userService = userService;
     }
 
-    // POST /api/users → Create a new user
     @PostMapping
-    public ResponseEntity<ApiResponse<User>> createUser(@RequestBody User user) {
-        User created = userService.createUser(user);
+    public ResponseEntity<ApiResponse<UserResponse>> createUser(@RequestBody UserRequest request) {
+        UserResponse created = userService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ApiResponse<>(201, "User created successfully", created));
     }
 
-    // GET /api/users → Get all users
     @GetMapping
-    public ResponseEntity<ApiResponse<List<User>>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers() {
+        List<UserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok(new ApiResponse<>(200, "Users fetched successfully", users));
     }
 
-    // GET /api/users/{id} → Get user by ID
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<User>> getUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id)
-                .orElseThrow(() -> new com.example.userapi.exception.UserNotFoundException(id));
+    public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable Long id) {
+        UserResponse user = userService.getUserById(id);
         return ResponseEntity.ok(new ApiResponse<>(200, "User fetched successfully", user));
     }
 
-    // PUT /api/users/{id} → Update a user
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<User>> updateUser(@PathVariable Long id, @RequestBody User user) {
-        User updated = userService.updateUser(id, user);
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(@PathVariable Long id, @RequestBody UserRequest request) {
+        UserResponse updated = userService.updateUser(id, request);
         return ResponseEntity.ok(new ApiResponse<>(200, "User updated successfully", updated));
     }
 
-    // DELETE /api/users/{id} → Delete a user
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
