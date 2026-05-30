@@ -1,7 +1,9 @@
 package com.example.userapi.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "users", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"username", "email"})
@@ -30,30 +32,4 @@ public class User {
         @AttributeOverride(name = "bs", column = @Column(name = "bs"))
     })
     private Company company;
-
-    public User() {}
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
-
-    public String getWebsite() { return website; }
-    public void setWebsite(String website) { this.website = website; }
-
-    public Address getAddress() { return address; }
-    public void setAddress(Address address) { this.address = address; }
-
-    public Company getCompany() { return company; }
-    public void setCompany(Company company) { this.company = company; }
 }

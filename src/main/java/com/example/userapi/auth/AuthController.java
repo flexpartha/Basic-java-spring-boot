@@ -3,8 +3,9 @@ package com.example.userapi.auth;
 import com.example.userapi.exception.ApiResponse;
 import com.example.userapi.model.AuthResponse;
 import com.example.userapi.model.LoginRequest;
-import com.example.userapi.model.RefreshRequest;
 import com.example.userapi.model.TokenResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,19 +29,40 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<AuthResponse>> login(@RequestBody LoginRequest request) {
-        AuthResponse authResponse = authService.login(request);
-        return ResponseEntity.ok(new ApiResponse<>(200, "Login successful", authResponse));
+    public ResponseEntity<ApiResponse<AuthResponse>> login(@RequestBody LoginRequest request,
+            HttpServletResponse response) {
+        AuthService.LoginResult result = authService.login(request);
+        response.addCookie(buildRefreshCookie(result.refreshToken()));
+        return ResponseEntity.ok(new ApiResponse<>(200, "Login successful", result.authResponse()));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<ApiResponse<TokenResponse>> refresh(@RequestBody RefreshRequest request) {
+    public ResponseEntity<ApiResponse<TokenResponse>> refresh(
+            @CookieValue(name = "refreshToken", required = false) String refreshToken) {
         try {
-            String accessToken = authService.refreshToken(request);
+            String accessToken = authService.refreshToken(refreshToken);
             return ResponseEntity.ok(new ApiResponse<>(200, "Refresh successful", new TokenResponse(accessToken)));
         } catch (InvalidCredentialsException e) {
-            // Refresh token is invalid or expired
             return ResponseEntity.status(401).body(new ApiResponse<>(401, "Refresh token invalid or expired", null));
         }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Void>> logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("refreshToken", null);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/api/auth/refresh");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return ResponseEntity.ok(new ApiResponse<>(200, "Logout successful", null));
+    }
+
+    private Cookie buildRefreshCookie(String value) {
+        Cookie cookie = new Cookie("refreshToken", value);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/api/auth/refresh");
+        //cookie.setMaxAge(7 * 24 * 60 * 60); // 7 days
+        cookie.setMaxAge(2 * 60); // 2 minutes
+        return cookie;
     }
 }

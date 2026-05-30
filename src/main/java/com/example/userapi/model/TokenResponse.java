@@ -1,13 +1,10 @@
 package com.example.userapi.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class TokenResponse {
     private String accessToken;
-
-    public TokenResponse(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
 }
