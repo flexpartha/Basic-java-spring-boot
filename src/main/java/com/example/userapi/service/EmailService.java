@@ -1,6 +1,7 @@
 package com.example.userapi.service;
 
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
+@ConditionalOnProperty(name = "spring.mail.host")
 public class EmailService {
 
     private final JavaMailSender mailSender;
@@ -40,7 +42,6 @@ public class EmailService {
 
             mailSender.send(message);
         } catch (Exception e) {
-            // log and continue — don't fail login if email fails
             System.err.println("Failed to send login email: " + e.getMessage());
         }
     }

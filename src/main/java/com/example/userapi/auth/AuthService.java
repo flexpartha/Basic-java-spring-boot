@@ -7,6 +7,7 @@ import com.example.userapi.model.User;
 import com.example.userapi.repository.UserRepository;
 import com.example.userapi.security.JwtUtil;
 import com.example.userapi.service.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,12 +15,13 @@ public class AuthService {
 
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
-    private final EmailService emailService;
 
-    public AuthService(JwtUtil jwtUtil, UserRepository userRepository, EmailService emailService) {
+    @Autowired(required = false)
+    private EmailService emailService;
+
+    public AuthService(JwtUtil jwtUtil, UserRepository userRepository) {
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
-        this.emailService = emailService;
     }
 
     public LoginResult login(LoginRequest request) {
@@ -32,7 +34,9 @@ public class AuthService {
                 request.getUsername(), request.getEmail())
                 .orElseThrow(InvalidCredentialsException::new);
 
-        emailService.sendLoginNotification(user.getName(), user.getUsername(), user.getEmail());
+        if (emailService != null) {
+            emailService.sendLoginNotification(user.getName(), user.getUsername(), user.getEmail());
+        }
 
         String accessToken = jwtUtil.generateAccessToken(request.getUsername());
         String refreshToken = jwtUtil.generateRefreshToken(request.getUsername());
