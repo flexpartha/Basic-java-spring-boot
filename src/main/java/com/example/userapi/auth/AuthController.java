@@ -6,6 +6,7 @@ import com.example.userapi.model.LoginRequest;
 import com.example.userapi.model.TokenResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +20,13 @@ public class AuthController {
 
     private final AuthService authService;
     private final UserRepository userRepository;
-    private final LoginNotificationService loginNotificationService;
 
-    public AuthController(AuthService authService, UserRepository userRepository,
-            LoginNotificationService loginNotificationService) {
+    @Autowired(required = false)
+    private LoginNotificationService loginNotificationService;
+
+    public AuthController(AuthService authService, UserRepository userRepository) {
         this.authService = authService;
         this.userRepository = userRepository;
-        this.loginNotificationService = loginNotificationService;
     }
 
     @PostMapping("/login")
@@ -61,7 +62,6 @@ public class AuthController {
         Cookie cookie = new Cookie("refreshToken", value);
         cookie.setHttpOnly(true);
         cookie.setPath("/api/auth/refresh");
-        //cookie.setMaxAge(7 * 24 * 60 * 60); // 7 days
         cookie.setMaxAge(2 * 60); // 2 minutes
         return cookie;
     }
