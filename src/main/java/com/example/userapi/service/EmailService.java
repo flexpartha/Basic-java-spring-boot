@@ -2,6 +2,7 @@ package com.example.userapi.service;
 
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.lang.NonNull;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class EmailService {
         this.templateEngine = templateEngine;
     }
 
-    public void sendLoginNotification(String name, String username, String email) {
+    public void sendLoginNotification(String name, String username, @NonNull String email) {
         try {
             Context context = new Context();
             context.setVariable("name", name);
@@ -38,7 +39,7 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(email);
             helper.setSubject("Login Notification");
-            helper.setText(html, true);
+            helper.setText(html != null ? html : "", true);
 
             mailSender.send(message);
         } catch (Exception e) {

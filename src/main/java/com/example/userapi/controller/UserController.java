@@ -6,6 +6,7 @@ import com.example.userapi.exception.ApiResponse;
 import com.example.userapi.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,19 +35,19 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable @NonNull Long id) {
         UserResponse user = userService.getUserById(id);
         return ResponseEntity.ok(new ApiResponse<>(200, "User fetched successfully", user));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<UserResponse>> updateUser(@PathVariable Long id, @RequestBody UserRequest request) {
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(@PathVariable @NonNull Long id, @RequestBody UserRequest request) {
         UserResponse updated = userService.updateUser(id, request);
         return ResponseEntity.ok(new ApiResponse<>(200, "User updated successfully", updated));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable @NonNull Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok(new ApiResponse<>(200, "User deleted successfully", null));
     }

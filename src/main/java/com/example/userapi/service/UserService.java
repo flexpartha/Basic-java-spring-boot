@@ -4,6 +4,8 @@ import com.example.userapi.dto.*;
 import com.example.userapi.exception.UserNotFoundException;
 import com.example.userapi.model.*;
 import com.example.userapi.repository.UserRepository;
+
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +20,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @SuppressWarnings("null")
     public UserResponse createUser(UserRequest request) {
         return toResponse(userRepository.save(toEntity(request)));
     }
@@ -26,12 +29,12 @@ public class UserService {
         return userRepository.findAll().stream().map(this::toResponse).collect(Collectors.toList());
     }
 
-    public UserResponse getUserById(Long id) {
+    public UserResponse getUserById(@NonNull Long id) {
         return userRepository.findById(id).map(this::toResponse)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public UserResponse updateUser(Long id, UserRequest request) {
+    public UserResponse updateUser(@NonNull Long id, UserRequest request) {
         return userRepository.findById(id).map(existing -> {
             existing.setName(request.getName());
             existing.setUsername(request.getUsername());
@@ -44,7 +47,7 @@ public class UserService {
         }).orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public void deleteUser(Long id) {
+    public void deleteUser(@NonNull Long id) {
         if (!userRepository.existsById(id)) throw new UserNotFoundException(id);
         userRepository.deleteById(id);
     }
@@ -63,7 +66,7 @@ public class UserService {
         return u;
     }
 
-    private UserResponse toResponse(User u) {
+    private UserResponse toResponse(@NonNull User u) {
         UserResponse res = new UserResponse();
         res.setId(u.getId());
         res.setName(u.getName());

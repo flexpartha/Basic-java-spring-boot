@@ -2,6 +2,7 @@ package com.example.userapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.lang.NonNull;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class LoginNotificationService {
         this.templateEngine = templateEngine;
     }
 
-    public void sendLoginNotification(String toEmail,
+    public void sendLoginNotification(@NonNull String toEmail,
                                        String username,
                                        boolean successful,
                                        String ip) throws MessagingException {
@@ -43,7 +44,7 @@ public class LoginNotificationService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
         helper.setTo(toEmail);
         helper.setSubject("Login attempt notification");
-        helper.setText(htmlBody, true);
+        helper.setText(htmlBody != null ? htmlBody : "", true);
 
         mailSender.send(message);
     }

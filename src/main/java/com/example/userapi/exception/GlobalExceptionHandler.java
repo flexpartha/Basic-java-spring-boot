@@ -2,6 +2,7 @@ package com.example.userapi.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -54,7 +55,7 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred: " + ex.getMessage());
     }
 
-    private ResponseEntity<ErrorResponse> build(HttpStatus status, String message) {
+    private ResponseEntity<ErrorResponse> build(@NonNull HttpStatus status, String message) {
         return ResponseEntity.status(status)
                 .body(new ErrorResponse(status.value(), status.getReasonPhrase(), message));
     }
