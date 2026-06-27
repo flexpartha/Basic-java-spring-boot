@@ -2,6 +2,7 @@ package com.example.userapi.auth;
 
 import com.example.userapi.exception.ApiResponse;
 import com.example.userapi.model.AuthResponse;
+import com.example.userapi.model.GoogleCodeRequest;
 import com.example.userapi.model.LoginRequest;
 import com.example.userapi.model.TokenResponse;
 import jakarta.servlet.http.Cookie;
@@ -46,6 +47,14 @@ public class AuthController {
         } catch (InvalidCredentialsException e) {
             return ResponseEntity.status(401).body(new ApiResponse<>(401, "Refresh token invalid or expired", null));
         }
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<ApiResponse<AuthResponse>> googleLogin(@RequestBody GoogleCodeRequest request,
+            HttpServletResponse response) throws Exception {
+        AuthService.LoginResult result = authService.googleLogin(request.getCode(), request.getCodeVerifier());
+        response.addCookie(buildRefreshCookie(result.refreshToken()));
+        return ResponseEntity.ok(new ApiResponse<>(200, "Google login successful", result.authResponse()));
     }
 
     @PostMapping("/logout")
