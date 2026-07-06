@@ -15,10 +15,13 @@ public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final CorsConfigurationSource corsConfigurationSource;
+    private final LocalizedAuthEntryPoint authEntryPoint;
 
-    public SecurityConfig(JwtAuthFilter jwtAuthFilter, CorsConfigurationSource corsConfigurationSource) {
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter, CorsConfigurationSource corsConfigurationSource,
+                          LocalizedAuthEntryPoint authEntryPoint) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.corsConfigurationSource = corsConfigurationSource;
+        this.authEntryPoint = authEntryPoint;
     }
 
     @Bean
@@ -31,6 +34,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**", "/h2-console/**", "/health").permitAll()
                 .anyRequest().authenticated()
             )
+            .exceptionHandling(ex -> ex.authenticationEntryPoint(authEntryPoint))
             .headers(headers -> headers.frameOptions(fo -> fo.disable())) // for H2 console
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
